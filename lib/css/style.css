@@ -1,0 +1,27 @@
+header {
+  background: #2590d9;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(30%, #2590d9), color-stop(100%, #135ca6));
+  background: -webkit-linear-gradient(top, #2590d9 30%, #135ca6);
+  border-bottom: 1px solid #000000;
+}
+
+header .logo img {
+  width: 9em;
+}
+
+body {
+  background-color: #a9b7c4;
+}
+
+
+#subcabecario {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  padding: .8em;
+  width: 100%;
+}
+#subcabecario .sc-input-group input {
+  width: 15em;
+}

@@ -1,0 +1,12 @@
+{
+  "name": "encomendas",
+  "version": "1.0.0",
+  "description": "Sistema de Encomendas Offline, Seu Condomínio",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager ./ EncomendasApp --platform=win32 --arch=x64 --version=0.28.2 --overwrite"
+  },
+  "author": "Dev8",
+  "license": "ISC"
+}

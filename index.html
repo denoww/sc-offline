@@ -1,0 +1,137 @@
+<!doctype html>
+<html	ng-app="scApp">
+<head>
+<meta charset="utf-8">
+<title>Encomendas</title>
+
+	<link rel="stylesheet" href="lib/css/sc-icons.css">
+	<link rel="stylesheet" href="lib/css/style.css">
+	<link rel="stylesheet" href="assets/css/prototype.css"> 
+    <!-- <link rel='stylesheet prefetch' href='https://dl.dropboxusercontent.com/u/3330376/uikit/prototype.css'> -->
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/css/animate.min.css">
+	<script src="assets/js/modernizr.min.js"></script>
+
+</head>
+
+<body ng-controller="MainCtrl">
+
+	<header class="sc-bg-blue sc-p-lg">
+		<div class="logo">
+			<img src="lib/img/logo_seucondominio.png">
+		</div>
+	</header>
+	<i class="fa fa-bolt"></i><i class="fa fa-bolt"></i><i class="fa fa-bolt"></i><i class="fa fa-bolt"></i>
+	<div style="margin-top: .1em;" class="sc-border-b-gray-light-solid-md sc-p-h-xl sc-p-v-md sc-bg-gray-lighter sc-text-gray sc-text-sm">
+			<span>Início /	<span class="sc-text-bold">Encomendas</span></span>
+	</div>
+
+
+	<section id="subcabecario" class="sc-bg-gray-lighter sc-p-xs sc-p-v-sm sc-align-middle subborda">
+    <div style="display: inline-table;">
+
+      <button ng-click="addEncomendaModal.open()" class="sc-btn sc-btn-blue sc-btn-awesomeness">
+        <div class="sc-btn-icon"><i class="sc-icon sc-icon-mais-1" style="line-height: inherit;"></i></div>
+        <div class="sc-btn-text">Cadastrar Encomenda</div>
+      </button>
+
+      <div class="sc-input-group sc-m-h-sm" style="display:inline-table; width:auto;">
+          <input type="text" class="sc-input-default">
+          <i class="sc-icon sc-icon-lupa-2 sc-btn sc-btn-blue"></i>
+          <i ng-click="filter = !filter;" ng-class="{'sc-btn-gray': filter}" class="sc-icon sc-icon-filtro-2 sc-btn sc-btn-blue"></i>
+      </div>
+    </div>
+  </section>
+
+  <div sc-modal="addEncomendaModal" class="sc-modal col-xs-12 col-sm-12 col-md-10">
+	  <div class="sc-modal-header">
+	    <i ng-click="addEncomendaModal.close()" class="sc-modal-close sc-icon sc-icon-fechar-2 sc-text-gray sc-text-hover-red"></i>
+	    Adicionar Encomenda
+	  </div>
+
+	  <div class="sc-modal-body">
+	  	<form name="encomendaForm">
+        <div class="sc-m-b-md col-md-6">
+        <label class="sc-label">Destinatário</label><hr class="sc-hr-gray">
+          
+            <div class="col-md-12">
+              <div style=""><b class="sc-label">Tipo:</b></div>
+                <div class="sc-btn-group sc-m-v-xs">
+                  <button ng-click="bt.feminino=false; bt.masculino=true; encomenda.tipo='residencia';" ng-class="{'sc-active sc-active-cian':bt.masculino}" class="sc-btn">Residência</button>
+                  <button ng-click="bt.feminino=true; bt.masculino=false; encomenda.tipo='outro';" ng-class="{'sc-active sc-active-cian':bt.feminino}"  class="sc-btn">Outro</button>
+                  <input type="hidden" ng-model="encomenda.tipo" value="{{encomenda.tipo}}">
+              </div>
+            </div>
+            <div class="col-md-12">
+                <div style=""><b class="sc-label">Nome:</b></div>
+                <input type="text" style="width:100%" ng-model="encomenda.nomedest" class="sc-input-default sc-m-v-xs col-md-12">
+            </div>
+          
+        </div>
+        <div class="sc-m-b-md col-md-6">
+        <label class="sc-label">Remetente</label><hr class="sc-hr-gray">
+        <div class="col-md-12">
+                <div style=""><b class="sc-label">Nome:</b></div>
+                <input type="text" style="width:100%" ng-model="encomenda.nomeremet" class="sc-input-default sc-m-v-xs col-md-12">
+            </div>
+        </div>
+        <div class="sc-m-b-md col-md-12">
+        	<label class="sc-label">Detalhes da Encomenda</label><hr class="sc-hr-gray">
+			<div class="label-field-encomenda">
+          		<textarea class="sc-input-default" ng-model="encomenda.detalhes" placeholder="Descreva detalhes da encomenda" style="width:100%"></textarea>
+        	</div>
+        </div>
+      </form>
+	  </div>
+
+	  <div class="sc-modal-footer">
+	  	<button ng-click="addEncomenda(encomenda); addEncomendaModal.close();" class="sc-btn">Salvar</button>
+	    <button ng-click="addEncomendaModal.close();" class="sc-btn">Cancelar</button>
+	  </div>
+	</div>
+
+	<ul class="sc-accordion">
+	  <li ng-repeat="lista in showEncomendas.rows">
+	    <div style="{{lista.bgColorAcc}}" ng-click="openModal(lista); acc.opened = !acc.opened" class="sc-accordion-head">
+	      <div style="{{lista.txtColor}} {{lista.bColor}}" class="sc-accordion-icon-col sc-divider align-xs-center">
+          <i class="sc-icon sc-icon-seta-11-direita sc-transition " ng-class="{  'sc-rotate-90':lista.opened }"></i>
+        </div>
+	      <div id="tamanhoFont" style="{{lista.txtColor}} {{lista.bColor}}" class="sc-accordion-elastic-col title">
+	        {{lista.doc.nomedest}}
+	        <span class="description">{{lista.doc.nomeremet}}</span>
+	      </div>
+	    </div>
+
+	    <div ng-show="acc.opened" class="sc-accordion-body ng-animation-slider">
+	      <p class="sc-accordion-element">{{lista.doc.detalhes}}</p>
+	      <div style="text-align: right;" class="col-xs-12">
+		      <button ng-click="deleteEncomenda(lista.doc);" class="sc-btn sc-btn-red sc-btn-block-only-xs sc-m-b-sm">Excluir</button>
+		      <button ng-click="entregaEncomenda(lista.doc);"  class="sc-btn sc-btn-blue sc-btn-block-only-xs sc-m-b-sm">Entregar</button>
+	      </div>
+
+	      <div class="clear"></div>
+	    </div>
+	  </li>
+	</ul>
+
+
+
+
+
+
+
+
+
+	<script src="lib/js/jquery.js"></script>
+	<script src="lib/js/moment.js"></script>
+	<script src="assets/js/prototype.js"></script>
+
+	<script src="assets/js/pouchdb.min.js"></script>
+	<script src="assets/js/angular-pouchdb.js"></script>
+
+
+	<script src="lib/js/index.js"></script>
+
+</body>
+
+</html>
