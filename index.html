@@ -36,9 +36,8 @@
       </button>
 
       <div class="sc-input-group sc-m-h-sm" style="display:inline-table; width:auto;">
-          <input type="text" class="sc-input-default">
+          <input type="search" ng-model="qenco" placeholder="Pesquisar por nome"  class="sc-input-default">
           <i class="sc-icon sc-icon-lupa-2 sc-btn sc-btn-blue"></i>
-          <i ng-click="filter = !filter;" ng-class="{'sc-btn-gray': filter}" class="sc-icon sc-icon-filtro-2 sc-btn sc-btn-blue"></i>
       </div>
     </div>
   </section>
@@ -91,13 +90,13 @@
 	</div>
 
 	<ul class="sc-accordion">
-	  <li ng-repeat="lista in showEncomendas.rows">
+	  <li ng-repeat="lista in showEncomendas.rows | filter:qenco ">
 	    <div style="{{lista.bgColorAcc}}" ng-click="openModal(lista); acc.opened = !acc.opened" class="sc-accordion-head">
 	      <div style="{{lista.txtColor}} {{lista.bColor}}" class="sc-accordion-icon-col sc-divider align-xs-center">
           <i class="sc-icon sc-icon-seta-11-direita sc-transition " ng-class="{  'sc-rotate-90':lista.opened }"></i>
         </div>
 	      <div id="tamanhoFont" style="{{lista.txtColor}} {{lista.bColor}}" class="sc-accordion-elastic-col title">
-	        {{lista.doc.nomedest}}
+	        {{lista.doc.nomedest + ' '}}<label ng-show="lista.doc.entregue"> - ENTREGUE!</label>
 	        <span class="description">{{lista.doc.nomeremet}}</span>
 	      </div>
 	    </div>
@@ -106,7 +105,7 @@
 	      <p class="sc-accordion-element">{{lista.doc.detalhes}}</p>
 	      <div style="text-align: right;" class="col-xs-12">
 		      <button ng-click="deleteEncomenda(lista.doc);" class="sc-btn sc-btn-red sc-btn-block-only-xs sc-m-b-sm">Excluir</button>
-		      <button ng-click="entregaEncomenda(lista.doc);"  class="sc-btn sc-btn-blue sc-btn-block-only-xs sc-m-b-sm">Entregar</button>
+		      <button ng-hide="lista.doc.entregue" ng-click="entregaEncomenda(lista.doc);"  class="sc-btn sc-btn-blue sc-btn-block-only-xs sc-m-b-sm">Entregar</button>
 	      </div>
 
 	      <div class="clear"></div>
